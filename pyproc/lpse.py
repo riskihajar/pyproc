@@ -107,7 +107,8 @@ class Lpse(object):
         self.is_lpse = self.__check_if_lpse(soup.text)
 
         if raise_exception and not self.is_lpse:
-            raise LpseHostExceptions(f"{self.url} sepertinya bukan aplikasi SPSE")
+            raise LpseHostExceptions(
+                f"{self.url} sepertinya bukan aplikasi SPSE")
 
         # get version
         self.version = self.__get_version(
@@ -137,7 +138,8 @@ class Lpse(object):
         :param footer: content footer dari halaman LPSE
         :return: Boolean
         """
-        version = re.findall(r'SPSE v(\d+\.\d+u[0-9]+)', footer, flags=re.DOTALL)
+        version = re.findall(
+            r'SPSE v(\d+\.\d+u[0-9]+)', footer, flags=re.DOTALL)
 
         if version:
             return utils.parse_version(version[0])
@@ -157,7 +159,8 @@ class Lpse(object):
         r = self.session.get(self.url + '/lelang')
 
         if from_cookies:
-            auth_token = re.findall(r'___AT=([A-Za-z0-9]+)&', self.session.cookies.get('SPSE_SESSION'))
+            auth_token = re.findall(
+                r'___AT=([A-Za-z0-9]+)&', self.session.cookies.get('SPSE_SESSION'))
 
             if auth_token:
                 return auth_token[0]
@@ -397,7 +400,8 @@ class LpseDetil(BaseLpseDetil):
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_pengumuman(self):
-        self.pengumuman = LpseDetilPengumumanParser(self._lpse, self.id_paket).get_detil()
+        self.pengumuman = LpseDetilPengumumanParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.pengumuman
 
@@ -406,7 +410,8 @@ class LpseDetil(BaseLpseDetil):
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_peserta(self):
-        self.peserta = LpseDetilPesertaParser(self._lpse, self.id_paket).get_detil()
+        self.peserta = LpseDetilPesertaParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.peserta
 
@@ -415,7 +420,8 @@ class LpseDetil(BaseLpseDetil):
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_hasil_evaluasi(self):
-        self.hasil = LpseDetilHasilEvaluasiParser(self._lpse, self.id_paket).get_detil()
+        self.hasil = LpseDetilHasilEvaluasiParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.hasil
 
@@ -438,7 +444,8 @@ class LpseDetil(BaseLpseDetil):
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_pemenang_berkontrak(self):
-        self.pemenang_berkontrak = LpseDetilPemenangBerkontrakParser(self._lpse, self.id_paket).get_detil()
+        self.pemenang_berkontrak = LpseDetilPemenangBerkontrakParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.pemenang_berkontrak
 
@@ -447,7 +454,8 @@ class LpseDetil(BaseLpseDetil):
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_jadwal(self):
-        self.jadwal = LpseDetilJadwalParser(self._lpse, self.id_paket).get_detil()
+        self.jadwal = LpseDetilJadwalParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.jadwal
 
@@ -459,7 +467,8 @@ class LpseDetilNonTender(BaseLpseDetil):
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_pengumuman(self):
-        self.pengumuman = LpseDetilPengumumanNonTenderParser(self._lpse, self.id_paket).get_detil()
+        self.pengumuman = LpseDetilPengumumanNonTenderParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.pengumuman
 
@@ -468,7 +477,8 @@ class LpseDetilNonTender(BaseLpseDetil):
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_peserta(self):
-        self.peserta = LpseDetilPesertaNonTenderParser(self._lpse, self.id_paket).get_detil()
+        self.peserta = LpseDetilPesertaNonTenderParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.peserta
 
@@ -477,7 +487,8 @@ class LpseDetilNonTender(BaseLpseDetil):
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_hasil_evaluasi(self):
-        self.hasil = LpseDetilHasilEvaluasiNonTenderParser(self._lpse, self.id_paket).get_detil()
+        self.hasil = LpseDetilHasilEvaluasiNonTenderParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.hasil
 
@@ -486,7 +497,8 @@ class LpseDetilNonTender(BaseLpseDetil):
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_pemenang(self):
-        self.pemenang = LpseDetilPemenangNonTenderParser(self._lpse, self.id_paket).get_detil()
+        self.pemenang = LpseDetilPemenangNonTenderParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.pemenang
 
@@ -495,7 +507,8 @@ class LpseDetilNonTender(BaseLpseDetil):
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_pemenang_berkontrak(self):
-        self.pemenang_berkontrak = LpseDetilPemenangBerkontrakNonTenderParser(self._lpse, self.id_paket).get_detil()
+        self.pemenang_berkontrak = LpseDetilPemenangBerkontrakNonTenderParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.pemenang_berkontrak
 
@@ -504,12 +517,28 @@ class LpseDetilNonTender(BaseLpseDetil):
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_jadwal(self):
-        self.jadwal = LpseDetilJadwalNonTenderParser(self._lpse, self.id_paket).get_detil()
+        self.jadwal = LpseDetilJadwalNonTenderParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.jadwal
-    
+
 
 class LpseDetilPencatatan(BaseLpseDetil):
+
+    def get_all_detil(self):
+        info = {
+            'error': False,
+            'error_message': []
+        }
+        for name in ['get_pengumuman', 'get_pemenang_berkontrak']:
+            try:
+                getattr(self, name)()
+            except Exception as e:
+                info['error'] = True
+                info['error_message'].append(
+                    '{} - {} - {}'.format(e, self.id_paket, name)
+                )
+        return info
 
     @backoff.on_exception(backoff.fibo,
                           (LpseServerExceptions, requests.exceptions.RequestException,
@@ -520,16 +549,16 @@ class LpseDetilPencatatan(BaseLpseDetil):
             self._lpse, self.id_paket).get_detil()
 
         return self.pengumuman
-    
+
     @backoff.on_exception(backoff.fibo,
                           (LpseServerExceptions, requests.exceptions.RequestException,
                            requests.exceptions.ConnectionError),
                           max_tries=3, jitter=None)
     def get_pemenang_berkontrak(self):
-        self.pemenang_berkontrak = LpseDetilPemenangBerkontrakPencatatanParser(self._lpse, self.id_paket).get_detil()
+        self.pemenang_berkontrak = LpseDetilPemenangBerkontrakPencatatanParser(
+            self._lpse, self.id_paket).get_detil()
 
         return self.pemenang_berkontrak
-
 
 
 class BaseLpseDetilParser(object):
@@ -579,7 +608,8 @@ class LpseDetilPengumumanParser(BaseLpseDetilParser):
         soup = Bs(content, 'html5lib')
 
         content = soup.find('div', {'class': 'content'})
-        table = content.find('table', {'class': 'table-bordered'}).find('tbody')
+        table = content.find(
+            'table', {'class': 'table-bordered'}).find('tbody')
 
         return self.parse_table(table)
 
@@ -603,7 +633,8 @@ class LpseDetilPengumumanParser(BaseLpseDetilParser):
                 elif data_key == 'lokasi_pekerjaan':
                     data_value = self.parse_lokasi_pekerjaan(td)
                 elif data_key in ('nilai_hps_paket', 'nilai_pagu_paket'):
-                    data_value = self.parse_currency(' '.join(td.text.strip().split()))
+                    data_value = self.parse_currency(
+                        ' '.join(td.text.strip().split()))
                 elif data_key == 'peserta_tender':
                     try:
                         data_value = int(td.text.strip().split()[0])
@@ -626,7 +657,8 @@ class LpseDetilPengumumanParser(BaseLpseDetilParser):
     def parse_rup(self, tbody_rup):
         raw_data = []
         for tr in tbody_rup.find_all('tr'):
-            raw_data.append([' '.join(i.text.strip().split()) for i in tr.children if not isinstance(i, NavigableString)])
+            raw_data.append([' '.join(i.text.strip().split())
+                            for i in tr.children if not isinstance(i, NavigableString)])
 
         header = ['_'.join(i.split()).lower() for i in raw_data[0]]
         data = []
@@ -665,7 +697,8 @@ class LpseDetilPesertaParser(BaseLpseDetilParser):
         table = soup.find('div', {'class': 'content'})\
             .find('table')
 
-        raw_data = [[i for i in tr.stripped_strings] for tr in table.find_all('tr')]
+        raw_data = [[i for i in tr.stripped_strings]
+                    for tr in table.find_all('tr')]
 
         header = ['_'.join(i.strip().split()).lower() for i in raw_data[0]]
 
@@ -691,11 +724,14 @@ class LpseDetilHasilEvaluasiParser(BaseLpseDetilParser):
         for tr in table.find_all('tr'):
 
             if is_header:
-                header = ['_'.join(i.text.strip().split()).lower() for i in filter(lambda x: type(x) == bs4.element.Tag, tr.children)]
+                header = ['_'.join(i.text.strip().split()).lower() for i in filter(
+                    lambda x: type(x) == bs4.element.Tag, tr.children)]
                 is_header = False
             else:
-                children = [self.parse_icon(i) for i in filter(lambda x: type(x) == bs4.element.Tag, tr.children)]
-                children_dict = self.parse_children(dict(zip(header, children)))
+                children = [self.parse_icon(i) for i in filter(
+                    lambda x: type(x) == bs4.element.Tag, tr.children)]
+                children_dict = self.parse_children(
+                    dict(zip(header, children)))
 
                 data.append(children_dict)
 
@@ -762,11 +798,13 @@ class LpseDetilPemenangParser(BaseLpseDetilParser):
             return
 
         if table_pemenang:
-            header = ['_'.join(th.text.strip().split()).lower() for th in table_pemenang.find_all('th')]
+            header = ['_'.join(th.text.strip().split()).lower()
+                      for th in table_pemenang.find_all('th')]
             all_pemenang = []
 
             for tr in table_pemenang.find_all('tr'):
-                data = [' '.join(td.text.strip().split()) for td in tr.find_all('td')]
+                data = [' '.join(td.text.strip().split())
+                        for td in tr.find_all('td')]
 
                 if data:
                     # set default dict untuk data pemenang karena nama header beda-beda
@@ -800,7 +838,8 @@ class LpseDetilPemenangParser(BaseLpseDetilParser):
                     return [min(all_pemenang, key=lambda x: x[self.key])]
                 except KeyError:
                     # fallback ke kolom harga penawaran untuk sorting jika kolom hasil negosiasi tidak ditemukan
-                    all_pemenang = self._check_col_harga_negosiasi(all_pemenang)
+                    all_pemenang = self._check_col_harga_negosiasi(
+                        all_pemenang)
                     return [min(all_pemenang, key=lambda x: x['harga_penawaran'])]
         return
 
@@ -813,7 +852,7 @@ class LpseDetilPemenangParser(BaseLpseDetilParser):
 
 
 class LpseDetilPemenangBerkontrakParser(LpseDetilPemenangParser):
-    
+
     detil_path = '/evaluasi/{}/pemenangberkontrak'
 
 
@@ -835,10 +874,12 @@ class LpseDetilJadwalParser(BaseLpseDetilParser):
         for tr in table.find_all('tr'):
 
             if is_header:
-                header = ['_'.join(th.text.strip().split()).lower() for th in tr.find_all('th')]
+                header = ['_'.join(th.text.strip().split()).lower()
+                          for th in tr.find_all('th')]
                 is_header = False
             else:
-                data = [' '.join(td.text.strip().split()) for td in tr.find_all('td')]
+                data = [' '.join(td.text.strip().split())
+                        for td in tr.find_all('td')]
                 jadwal.append(dict(zip(header, data)))
 
         return jadwal
@@ -847,6 +888,7 @@ class LpseDetilJadwalParser(BaseLpseDetilParser):
 class LpseDetilPengumumanNonTenderParser(LpseDetilPengumumanParser):
 
     detil_path = '/nontender/{}/pengumumanpl'
+
 
 class LpseDetilPengumumanPencatatanParser(LpseDetilPengumumanParser):
 
@@ -872,9 +914,75 @@ class LpseDetilPemenangBerkontrakNonTenderParser(LpseDetilPemenangNonTenderParse
 
     detil_path = '/evaluasinontender/{}/pemenangberkontrak'
 
+
 class LpseDetilPemenangBerkontrakPencatatanParser(LpseDetilPemenangNonTenderParser):
 
     detil_path = '/pencatatan/pengumumannonspkpemenang?id={}'
+    
+    def parse_table(self, table):
+        data = {}
+
+        for tr in table.find_all('tr', recursive=False):
+            ths = tr.find_all('th', recursive=False)
+            tds = tr.find_all('td', recursive=False)
+
+            for th, td in zip(ths, tds):
+                data_key = '_'.join(th.text.strip().split()).lower()
+                data_value = ' '.join(td.text.strip().split())
+
+                data_value = self.parse_currency(data_value) \
+                    if (data_value.lower().startswith('rp')) else data_value
+
+                data.update({
+                    data_key: data_value
+                })
+
+        return data
+
+    def parse_detil(self, content):
+        soup = Bs(content, 'html5lib')
+
+        try:
+            table_paket = soup.find('div', {'class': 'content'})\
+                .table\
+                .tbody
+        except AttributeError:
+            return
+        
+        paket = self.parse_table(table_paket)
+
+        try:
+            table_pemenang = soup.find('div', {'class': 'bs-callout'})\
+                .find_next_siblings('table')[-1]\
+                .find('table')
+        except AttributeError:
+            return
+
+        if table_pemenang:
+            header = ['_'.join(th.text.strip().split()).lower()
+                      for th in table_pemenang.find_all('th')]
+            pemenang = {
+                'nama_penyedia': None,
+                'alamat': None,
+                'npwp': None,
+                'nilai_total_realisasi': paket['nilai_total_realisasi'],
+            }
+
+            for tr in table_pemenang.find_all('tr'):
+                data = [' '.join(td.text.strip().split())
+                        for td in tr.find_all('td')]
+
+                if data:
+                    # set default dict untuk data pemenang karena nama header beda-beda
+                    # ref: https://github.com/wakataw/pyproc/pull/53
+                    
+
+                    for i, v in zip(header, data):
+                        pemenang[i] = self.parse_currency(v) \
+                            if (v.lower().startswith('rp') or i.startswith('harga') or i.startswith('hasil')) else v
+
+            return pemenang
+        return
 
 
 class LpseDetilJadwalNonTenderParser(LpseDetilJadwalParser):
