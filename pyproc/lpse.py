@@ -306,6 +306,25 @@ class Lpse(object):
         return self.get_paket('pl', start, length, data_only, kategori, search_keyword, None, order, tahun,
                               ascending, instansi_id)
 
+    def get_paket_pencatatan(self, start=0, length=0, data_only=False, kategori=None, search_keyword=None,
+                             order=By.KODE, tahun=None, ascending=False, instansi_id=None):
+        """
+        Wrapper pencarian paket non tender
+        :param start: index data awal
+        :param length: jumlah data yang ditampilkan
+        :param data_only: hanya menampilkan data tanpa menampilkan informasi lain
+        :param kategori: kategori pengadaan (lihat di pypro.kategori)
+        :param search_keyword: keyword pencarian paket pengadaan
+        :param nama_penyedia: filter berdasarkan nama penyedia
+        :param order: Mengurutkan data berdasarkan kolom
+        :param tahun: Tahun pengadaan
+        :param ascending: Ascending, descending jika diset False
+        :param instansi_id: Filter pencarian berdasarkan instansi atau satker tertentu
+        :return: dictionary dari hasil pencarian paket (atau list jika data_only=True)
+        """
+        return self.get_paket('nonspk', start, length, data_only, kategori, search_keyword, None, order, tahun,
+                              ascending, instansi_id)
+
     def detil_paket_tender(self, id_paket):
         """
         Mengambil detil pengadaan
@@ -321,6 +340,14 @@ class Lpse(object):
         :return:
         """
         return LpseDetilNonTender(self, id_paket)
+
+    def detil_paket_pencatatan(self, id_paket):
+        """
+        Mengambil detil pengadaan non tender pencatatan
+        :param id_paket: id_paket non tender
+        :return:
+        """
+        return LpseDetilPencatatan(self, id_paket)
 
     def __del__(self):
         self.session.close()
@@ -480,6 +507,29 @@ class LpseDetilNonTender(BaseLpseDetil):
         self.jadwal = LpseDetilJadwalNonTenderParser(self._lpse, self.id_paket).get_detil()
 
         return self.jadwal
+    
+
+class LpseDetilPencatatan(BaseLpseDetil):
+
+    @backoff.on_exception(backoff.fibo,
+                          (LpseServerExceptions, requests.exceptions.RequestException,
+                           requests.exceptions.ConnectionError),
+                          max_tries=3, jitter=None)
+    def get_pengumuman(self):
+        self.pengumuman = LpseDetilPengumumanPencatatanParser(
+            self._lpse, self.id_paket).get_detil()
+
+        return self.pengumuman
+    
+    @backoff.on_exception(backoff.fibo,
+                          (LpseServerExceptions, requests.exceptions.RequestException,
+                           requests.exceptions.ConnectionError),
+                          max_tries=3, jitter=None)
+    def get_pemenang_berkontrak(self):
+        self.pemenang_berkontrak = LpseDetilPemenangBerkontrakPencatatanParser(self._lpse, self.id_paket).get_detil()
+
+        return self.pemenang_berkontrak
+
 
 
 class BaseLpseDetilParser(object):
@@ -798,6 +848,10 @@ class LpseDetilPengumumanNonTenderParser(LpseDetilPengumumanParser):
 
     detil_path = '/nontender/{}/pengumumanpl'
 
+class LpseDetilPengumumanPencatatanParser(LpseDetilPengumumanParser):
+
+    detil_path = '/pencatatan/pengumumannonspk?id={}'
+
 
 class LpseDetilPesertaNonTenderParser(LpseDetilPesertaParser):
 
@@ -817,6 +871,10 @@ class LpseDetilPemenangNonTenderParser(LpseDetilPemenangParser):
 class LpseDetilPemenangBerkontrakNonTenderParser(LpseDetilPemenangNonTenderParser):
 
     detil_path = '/evaluasinontender/{}/pemenangberkontrak'
+
+class LpseDetilPemenangBerkontrakPencatatanParser(LpseDetilPemenangNonTenderParser):
+
+    detil_path = '/pencatatan/pengumumannonspkpemenang?id={}'
 
 
 class LpseDetilJadwalNonTenderParser(LpseDetilJadwalParser):
