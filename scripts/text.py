@@ -22,6 +22,7 @@ HELP_CHUNK_SIZE = "jumlah daftar index per-halaman yang diunduh dalam satu itera
 HELP_WORKERS = "jumlah workers untuk mengunduh detil paket secara paralel"
 HELP_TIMEOUT = "besaran waktu timeout untuk menunggu respon dari server"
 HELP_NONTENDER = "flag untuk mengunduh data paket pengadaan langsung"
+HELP_PENCATATAN = "flag untuk mengunduh data paket pencatatan non tender / non spk"
 HELP_INDEX_DOWNLOAD_DELAY = "waktu delay untuk setiap iterasi halaman index dalam detik"
 HELP_KEEP = "tidak menghapus working direktori dari downloader"
 HELP_LPSE_HOST = "host LPSE atau file teks berisi daftar host LPSE. Format dapat dilihat di dokumentasi"

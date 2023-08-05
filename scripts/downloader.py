@@ -664,10 +664,12 @@ class Downloader(object):
             "--keyword",
             input("Kata kunci pencarian [default kosong]: ")
         ]
-        is_tender = input("Jenis pengadan [tender/pl]: ").lower().strip()
+        is_tender = input("Jenis pengadan [tender/pl/pencatatan]: ").lower().strip()
 
-        if is_tender in ['tender', 'pl']:
-            if is_tender == 'pl':
+        if is_tender in ['tender', 'pl', 'pencatatan']:
+            if is_tender == 'pencatatan':   
+                args.append('--pencatatan')
+            elif is_tender == 'pl':
                 args.append('--non-tender')
         else:
             print("Pilihan {} tidak valid".format(is_tender))
@@ -688,6 +690,7 @@ class Downloader(object):
         -w, --workers               : jumlah workers yang berjalan secara paralel untuk mengunduh detail paket
         -x, --timeout               : waktu timeout respon dari server dalam detik
         -n, --non-tender            : flag untuk melakukan pengunduhan data paket pengadaan langsung
+        -p, --pencatatan            : flag untuk melakukan pengunduhan data paket pencatatan non tender / non spk
         -d, --index-download-delay  : waktu delay untuk setiap iterasi halaman index dalam detik
         -k, --keep-workdir          : tidak menghapus working direktori dari downloader
         -f, --force                 : menjalankan program tanpa memperhatikan cache yang sudah ada sebelumnya
@@ -723,6 +726,7 @@ class Downloader(object):
         parser.add_argument('-w', '--workers', type=int, default=8, help=text.HELP_WORKERS)
         parser.add_argument('-x', '--timeout', type=int, default=30, help=text.HELP_TIMEOUT)
         parser.add_argument('-n', '--non-tender', action='store_true', help=text.HELP_NONTENDER)
+        parser.add_argument('-p', '--pencatatan', action='store_true', help=text.HELP_PENCATATAN)
         parser.add_argument('-d', '--index-download-delay', type=int, default=1, help=text.HELP_INDEX_DOWNLOAD_DELAY)
         parser.add_argument('-o', '--output-format', choices=['json', 'csv'], default='csv', help=text.HELP_OUTPUT)
         parser.add_argument('--keep-index', action='store_true', help=text.HELP_KEEP)
